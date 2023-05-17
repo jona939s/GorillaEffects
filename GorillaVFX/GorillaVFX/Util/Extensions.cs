@@ -18,9 +18,8 @@ namespace GorillaVFX.Util
                 .BeginCenter()
                 .MakeBar('=', ComputerInterface.ViewLib.ComputerView.SCREEN_WIDTH, 0)
                 .AppendLine(Title);
-            if (Author != "") stringBuilder.AppendLine("<color=ffffff50>" + Author + "</color>");
+            if (Author != "") stringBuilder.AppendLine("<color=#ffffff50>" + Author + "</color>");
             stringBuilder
-                .AppendLine()
                 .MakeBar('=', ComputerInterface.ViewLib.ComputerView.SCREEN_WIDTH, 0)
                 .AppendLines(Offset)
                 .EndAlign();
