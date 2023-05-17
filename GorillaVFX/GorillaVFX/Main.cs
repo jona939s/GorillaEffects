@@ -23,7 +23,7 @@ namespace GorillaVFX
         private void Awake()
         {
             manualLogSource = Logger; // Allows it to be accessible outside of this type
-            $"Init : {GUID}".Log(); // formatted logging
+            $"AWAKE Init : {GUID}".Log(); // formatted logging
 
             ParticleMultiplier = Config.Bind<int>("General", "Particle Multiplier", 1, "The amount of particles will be multiplied by this number.");
 
@@ -33,6 +33,8 @@ namespace GorillaVFX
 
         private void Start()
         {
+            $"-----===== START OF START FUNC =====-----".Log(LogLevel.Debug);
+
             ParticleSystem test2D = ParticleCreator.BasicParticle(true, 5, 1, 0.5f, 1.5f, 20, Color.red);
             ParticleSystem test3D = ParticleCreator.Basic3DParticle(PrimitiveType.Sphere, true, 1, 1, 0.5f, 0.5f, 20, Color.green);
 
@@ -41,6 +43,8 @@ namespace GorillaVFX
 
             test2D.Play();
             test3D.Play();
+
+            "-----===== END OF START FUNC =====-----".Log(LogLevel.Debug);
         }
     }
 }

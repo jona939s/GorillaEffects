@@ -40,8 +40,7 @@ namespace GorillaVFX.computerInterface.Views
                 .AddHeader(Main.NAME, "By JJoe & Crafterbot", 2)
                 .BeginAlign("left")
                 .AppendLine(selectionHandler.GetIndicatedText(0, "Settings"))
-                .AppendLine(selectionHandler.GetIndicatedText(1, "Credits"))
-                ;
+                .AppendLine(selectionHandler.GetIndicatedText(1, "Credits"));
 
             SetText(stringBuilder);
         }

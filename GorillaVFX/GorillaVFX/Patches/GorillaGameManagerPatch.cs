@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GorillaVFX.Patches
 {
-    [HarmonyPatch(typeof(GorillaGameManager))]
+    /*[HarmonyPatch(typeof(GorillaGameManager))]
     internal class GorillaGameManagerPatch
     {
         [HarmonyPostfix]
@@ -18,5 +18,5 @@ namespace GorillaVFX.Patches
             ps.transform.position = taggedTransform.position;
             ps.Play();
         }
-    }
+    }*/
 }

@@ -4,13 +4,6 @@ namespace GorillaVFX.Util
 {
     internal static class ParticleCreator
     {
-        private static ParticleSystem ps = new ParticleSystem();
-
-        private static ParticleSystem.MainModule getModule()
-        {
-            return ps.main;
-        }
-
         /// <summary>
         /// Creates a basic 2D particle system
         /// </summary>
@@ -22,9 +15,16 @@ namespace GorillaVFX.Util
         /// <param name="max">Max amount of particles at once</param>
         /// <param name="color">The color the basic particle should have</param>
         /// <returns></returns>
-        internal static ParticleSystem BasicParticle(bool loop, float lifetime, float lifetimeMultiplier, float size, float speed, int max, Color color)
+        internal static ParticleSystem BasicParticle(
+            bool loop,
+            float lifetime,
+            float lifetimeMultiplier,
+            float size, float speed,
+            int max,
+            Color color)
         {
-            ParticleSystem.MainModule module = getModule();
+            ParticleSystem ps = new ParticleSystem();
+            ParticleSystem.MainModule module = ps.main;
 
             module.loop = loop;
             module.startLifetime = lifetime;
@@ -49,9 +49,17 @@ namespace GorillaVFX.Util
         /// <param name="max">max amount of particles at once</param>
         /// <param name="color">The color the basic 3D Mesh should have</param>
         /// <returns></returns>
-        internal static ParticleSystem Basic3DParticle(PrimitiveType type, bool loop, float lifetime, float lifetimeMultiplier, float size, float speed, int max, Color color)
+        internal static ParticleSystem Basic3DParticle(
+            PrimitiveType type,
+            bool loop,
+            float lifetime,
+            float lifetimeMultiplier,
+            float size, float speed,
+            int max,
+            Color color)
         { // Define and get mesh
-            ParticleSystem.MainModule module = getModule();
+            ParticleSystem ps = new ParticleSystem();
+            ParticleSystem.MainModule module = ps.main;
             GameObject shape = GameObject.CreatePrimitive(type);
             Mesh mesh = shape.GetComponent<MeshFilter>().sharedMesh;
             GameObject.Destroy(shape);
@@ -63,13 +71,11 @@ namespace GorillaVFX.Util
                 colors[i] = color;
             }
 
-            mesh.colors = colors; // Assign the colors array to the mesh
-
-
             // Make PS use the mesh
             psShape.enabled = true;
             psShape.shapeType = ParticleSystemShapeType.Mesh;
             psShape.mesh = mesh;
+            psShape.mesh.colors = colors;
             psShape.useMeshColors = true;
 
             // PS settings
