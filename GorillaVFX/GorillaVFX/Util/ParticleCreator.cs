@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GorillaVFX.Util
 {
-    internal class ParticleCreator
+    internal static class ParticleCreator
     {
         private static ParticleSystem ps = new ParticleSystem();
 
@@ -25,7 +22,7 @@ namespace GorillaVFX.Util
         /// <param name="max">Max amount of particles at once</param>
         /// <param name="color">The color the basic particle should have</param>
         /// <returns></returns>
-        internal static ParticleSystem BasicParticle( bool loop, float lifetime, float lifetimeMultiplier, float size, float speed, int max, Color color)
+        internal static ParticleSystem BasicParticle(bool loop, float lifetime, float lifetimeMultiplier, float size, float speed, int max, Color color)
         {
             ParticleSystem.MainModule module = getModule();
 
@@ -34,7 +31,7 @@ namespace GorillaVFX.Util
             module.startLifetimeMultiplier = lifetimeMultiplier;
             module.startSize = size;
             module.startSpeed = speed;
-            module.maxParticles = max;
+            module.maxParticles = max * Main.ParticleMultiplier.Value;
             module.startColor = color;
 
             return ps;
