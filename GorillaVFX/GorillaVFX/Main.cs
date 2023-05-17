@@ -30,5 +30,17 @@ namespace GorillaVFX
             Bepinject.Zenjector.Install<computerInterface.MainInstaller>().OnProject();
             new Harmony(GUID).PatchAll();
         }
+
+        private void Start()
+        {
+            ParticleSystem test2D = ParticleCreator.BasicParticle(true, 5, 1, 0.5f, 1.5f, 20, Color.red);
+            ParticleSystem test3D = ParticleCreator.Basic3DParticle(PrimitiveType.Sphere, true, 1, 1, 0.5f, 0.5f, 20, Color.green);
+
+            test2D.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
+            test3D.transform.position = new Vector3(-63.1642f, 2.4259f, -70.5596f);
+
+            test2D.Play();
+            test3D.Play();
+        }
     }
 }

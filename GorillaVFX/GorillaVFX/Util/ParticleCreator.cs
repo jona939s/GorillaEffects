@@ -57,11 +57,20 @@ namespace GorillaVFX.Util
             GameObject.Destroy(shape);
             var psShape = ps.shape;
 
+            Color[] colors = new Color[mesh.vertices.Length]; // Create array of colors with the length of the vertices array
+            for (int i = 0; i < colors.Length; i++) // Loop through the array and set the color of each vertex
+            {
+                colors[i] = color;
+            }
+
+            mesh.colors = colors; // Assign the colors array to the mesh
+
+
             // Make PS use the mesh
             psShape.enabled = true;
             psShape.shapeType = ParticleSystemShapeType.Mesh;
             psShape.mesh = mesh;
-            psShape.useMeshColors = true; // Not sure if the main 3D settings is in psShape or in module. May be a combo? Also we cant use a Color for a mesh like this
+            psShape.useMeshColors = true;
 
             // PS settings
             module.loop = loop;
