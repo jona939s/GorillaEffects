@@ -17,7 +17,11 @@ namespace GorillaVFX
         internal static ManualLogSource manualLogSource;
 
         #region Configuration
-        internal static ConfigEntry<int> ParticleMultiplier;
+        internal static ConfigEntry<float> ParticleMultiplier;
+        internal static ConfigEntry<float> Emission;
+        internal static ConfigEntry<float> Speed;
+        internal static ConfigEntry<float> Size;
+        internal static ConfigEntry<int> Max;
         #endregion
 
         private void Awake()
@@ -25,7 +29,11 @@ namespace GorillaVFX
             manualLogSource = Logger; // Allows it to be accessible outside of this type
             $"AWAKE Init : {GUID}".Log(); // formatted logging
 
-            ParticleMultiplier = Config.Bind<int>("General", "Particle Multiplier", 1, "The amount of particles will be multiplied by this number.");
+            ParticleMultiplier = Config.Bind<float>("General", "Particle Multiplier", 1.0f, "The amount of particles will be multiplied by this number.");
+            Emission = Config.Bind<float>("General", "Particle Emission", 15.0f, "The amount of particle allowed to be spawned every second");
+            Speed = Config.Bind<float>("General", "Particle Speed", 15.0f, "The amount of speed the particles can move at");
+            Size = Config.Bind<float>("General", "Particle Size", 15.0f, "The size of each particle");
+            Max = Config.Bind<int>("General", "Max Particles", 75, "The max amount of particles allowed to exist at once for eac individual particle system");
 
             Bepinject.Zenjector.Install<computerInterface.MainInstaller>().OnProject();
             new Harmony(GUID).PatchAll();
@@ -33,22 +41,19 @@ namespace GorillaVFX
 
         private void Start()
         {
-            $"-----===== START OF START FUNC =====-----".Log(LogLevel.Debug);
+            /*GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Plane), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
+                true,
+                1000,
+                1,
+                Size.Value,
+                Speed.Value,
+                Emission.Value * ParticleMultiplier.Value,
+                Max.Value,
+                Color.green);
 
-            Mesh mesh = ParticleCreator.getMesh(PrimitiveType.Capsule);
-            GameObject p = ParticleCreator.Basic3DParticle(mesh, ParticleSystemShapeType.Sphere, true, 1000, 10, 2, 10, 1000, Color.red);
-            //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            //go.name = "go";
-            GameObject gogo = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            gogo.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
-            gogo.GetComponent<MeshFilter>().mesh = mesh;
-
-            //p.GetComponent<ParticleSystemRenderer>().mesh = go.GetComponent<Mesh>();
             p.GetComponent<ParticleSystem>().Play();
 
-            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
-
-            "-----===== END OF START FUNC =====-----".Log(LogLevel.Debug);
+            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);*/
         }
     }
 }

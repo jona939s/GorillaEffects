@@ -12,8 +12,8 @@ namespace GorillaVFX.Util
         /// <param name="lifetimeMultiplier"></param>
         /// <param name="size">Particle size</param>
         /// <param name="speed">Particle move speed</param>
-        /// <param name="max">Max amount of particles at once</param>
         /// <param name="emmission">The amount of particles to spawn</param>
+        /// <param name="max">Max amount of particles at once</param>
         /// <param name="color">The color the basic particle should have</param>
         /// <returns></returns>
         internal static GameObject BasicParticle(
@@ -59,6 +59,7 @@ namespace GorillaVFX.Util
         /// <param name="lifetimeMultiplier"></param>
         /// <param name="size">Particle size</param>
         /// <param name="speed">Particle move speed</param>
+        /// <param name="emmission">The amount of particles to spawn</param>
         /// <param name="max">max amount of particles at once</param>
         /// <param name="color">The color the basic 3D Mesh should have</param>
         /// <returns></returns>
@@ -70,19 +71,19 @@ namespace GorillaVFX.Util
             float lifetimeMultiplier,
             float size,
             float speed,
+            float emission,
             int max,
             Color color)
-        { // Define and get mesh
+        {
             GameObject go = new GameObject();
             ParticleSystem ps = go.AddComponent<ParticleSystem>();
             ParticleSystem.MainModule module = ps.main;
+            ParticleSystem.EmissionModule eModule = ps.emission;
             var psShape = ps.shape;
 
             // Make PS use the mesh
             psShape.enabled = true;
             psShape.shapeType = shapeT;
-            //psShape.mesh.colors = colors;
-            //psShape.useMeshColors = true;
 
             Material mat = new Material(Shader.Find("Standard"));
             mat.color = color;
@@ -91,10 +92,14 @@ namespace GorillaVFX.Util
 
             psr.enabled = true;
             psr.renderMode = ParticleSystemRenderMode.Mesh;
+            
             psr.mesh = shapeMesh;
             psr.material = mat;
 
+            eModule.rateOverTime = emission;
+
             // PS settings
+            module.cullingMode = ParticleSystemCullingMode.Automatic;
             module.playOnAwake = false;
             module.loop = loop;
             module.startLifetime = lifetime;
