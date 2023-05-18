@@ -24,7 +24,7 @@ namespace GorillaVFX.computerInterface.Views
         {
             base.OnShow(args);
 
-            selectionHandler = new UISelectionHandler(EKeyboardKey.Up, EKeyboardKey.Down);
+            selectionHandler = new UISelectionHandler(EKeyboardKey.Up, EKeyboardKey.Down, EKeyboardKey.Enter);
             selectionHandler.MaxIdx = 1;
             selectionHandler.CurrentSelectionIndex = _SelectedIndex;
             selectionHandler.OnSelected += SelectionHandler_OnSelected;
@@ -48,7 +48,12 @@ namespace GorillaVFX.computerInterface.Views
         /* Event handling methods */
         private void SelectionHandler_OnSelected(int obj)
         {
-            throw new NotImplementedException();
+            switch (obj)
+            {
+                case 0:
+                    ShowView<settingsView>();
+                    break;
+            }
         }
 
         public override void OnKeyPressed(EKeyboardKey key)
@@ -59,6 +64,9 @@ namespace GorillaVFX.computerInterface.Views
                 DrawPage();
                 return;
             }
+
+            if (key == EKeyboardKey.Back)
+                ReturnToMainMenu();
         }
     }
 }
