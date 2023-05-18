@@ -13,18 +13,27 @@ namespace GorillaVFX.Util
         /// <param name="size">Particle size</param>
         /// <param name="speed">Particle move speed</param>
         /// <param name="max">Max amount of particles at once</param>
+        /// <param name="emmission">The amount of particles to spawn</param>
         /// <param name="color">The color the basic particle should have</param>
         /// <returns></returns>
-        internal static ParticleSystem BasicParticle(
+        internal static GameObject BasicParticle(
             bool loop,
             float lifetime,
             float lifetimeMultiplier,
-            float size, float speed,
+            float size,
+            float speed,
+            float emmission,
             int max,
             Color color)
         {
-            ParticleSystem ps = new ParticleSystem();
+            GameObject go = new GameObject();
+            ParticleSystem ps = go.AddComponent<ParticleSystem>();
             ParticleSystem.MainModule module = ps.main;
+            ParticleSystem.EmissionModule eModule = ps.emission;
+            ParticleSystem.ShapeModule sModule = ps.shape;
+            Sprite defSprite = Resources.Load<Sprite>("");
+
+            eModule.rateOverTime = emmission;
 
             module.loop = loop;
             module.startLifetime = lifetime;
@@ -34,13 +43,17 @@ namespace GorillaVFX.Util
             module.maxParticles = max * Main.ParticleMultiplier.Value;
             module.startColor = color;
 
-            return ps;
+            sModule.shapeType = ParticleSystemShapeType.Sprite;
+            sModule.sprite = defSprite;
+
+            return go;
         }
 
         /// <summary>
         /// Creates a basic 3D particle system (MAY NOT WORK FOR NOW)
         /// </summary>
-        /// <param name="type">Takes a UnityEngine PrimitiveType for a primitive shape</param>
+        /// <param name="type">Takes a UnityEngine PrimitiveType for the shape the particles are allowed to be emitted in</param>
+        /// <param name="shapeT">Takes a ParticleSystemShapeType to get the mesh shape that the 3D particles should be in</param>
         /// <param name="loop">Should loop</param>
         /// <param name="lifetime">How long the particles live</param>
         /// <param name="lifetimeMultiplier"></param>
@@ -49,45 +62,59 @@ namespace GorillaVFX.Util
         /// <param name="max">max amount of particles at once</param>
         /// <param name="color">The color the basic 3D Mesh should have</param>
         /// <returns></returns>
-        internal static ParticleSystem Basic3DParticle(
-            PrimitiveType type,
+        internal static GameObject Basic3DParticle(
+            Mesh shapeMesh,
+            ParticleSystemShapeType shapeT,
             bool loop,
             float lifetime,
             float lifetimeMultiplier,
-            float size, float speed,
+            float size,
+            float speed,
             int max,
             Color color)
         { // Define and get mesh
-            ParticleSystem ps = new ParticleSystem();
+            GameObject go = new GameObject();
+            ParticleSystem ps = go.AddComponent<ParticleSystem>();
             ParticleSystem.MainModule module = ps.main;
-            GameObject shape = GameObject.CreatePrimitive(type);
-            Mesh mesh = shape.GetComponent<MeshFilter>().sharedMesh;
-            GameObject.Destroy(shape);
             var psShape = ps.shape;
-
-            Color[] colors = new Color[mesh.vertices.Length]; // Create array of colors with the length of the vertices array
-            for (int i = 0; i < colors.Length; i++) // Loop through the array and set the color of each vertex
-            {
-                colors[i] = color;
-            }
 
             // Make PS use the mesh
             psShape.enabled = true;
-            psShape.shapeType = ParticleSystemShapeType.Mesh;
-            psShape.mesh = mesh;
-            psShape.mesh.colors = colors;
-            psShape.useMeshColors = true;
+            psShape.shapeType = shapeT;
+            //psShape.mesh.colors = colors;
+            //psShape.useMeshColors = true;
+
+            Material mat = new Material(Shader.Find("Standard"));
+            mat.color = color;
+
+            var psr = ps.GetComponent<ParticleSystemRenderer>();
+
+            psr.enabled = true;
+            psr.renderMode = ParticleSystemRenderMode.Mesh;
+            psr.mesh = shapeMesh;
+            psr.material = mat;
 
             // PS settings
+            module.playOnAwake = false;
             module.loop = loop;
             module.startLifetime = lifetime;
             module.startLifetimeMultiplier = lifetimeMultiplier;
             module.startSize = size;
             module.startSpeed = speed;
             module.maxParticles = max;
-            module.startColor = color;
+            
+            return go;
+        }
 
-            return ps;
+        internal static Mesh getMesh(PrimitiveType type)
+        {
+            GameObject obj = GameObject.CreatePrimitive(type);
+
+            Mesh shapeMesh = obj.GetComponent<MeshFilter>().mesh;
+
+            GameObject.Destroy(obj);
+
+            return shapeMesh;
         }
     }
 }

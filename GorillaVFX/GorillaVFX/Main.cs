@@ -35,14 +35,18 @@ namespace GorillaVFX
         {
             $"-----===== START OF START FUNC =====-----".Log(LogLevel.Debug);
 
-            ParticleSystem test2D = ParticleCreator.BasicParticle(true, 5, 1, 0.5f, 1.5f, 20, Color.red);
-            ParticleSystem test3D = ParticleCreator.Basic3DParticle(PrimitiveType.Sphere, true, 1, 1, 0.5f, 0.5f, 20, Color.green);
+            Mesh mesh = ParticleCreator.getMesh(PrimitiveType.Capsule);
+            GameObject p = ParticleCreator.Basic3DParticle(mesh, ParticleSystemShapeType.Sphere, true, 1000, 10, 2, 10, 1000, Color.red);
+            //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            //go.name = "go";
+            GameObject gogo = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gogo.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
+            gogo.GetComponent<MeshFilter>().mesh = mesh;
 
-            test2D.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
-            test3D.transform.position = new Vector3(-63.1642f, 2.4259f, -70.5596f);
+            //p.GetComponent<ParticleSystemRenderer>().mesh = go.GetComponent<Mesh>();
+            p.GetComponent<ParticleSystem>().Play();
 
-            test2D.Play();
-            test3D.Play();
+            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
 
             "-----===== END OF START FUNC =====-----".Log(LogLevel.Debug);
         }
