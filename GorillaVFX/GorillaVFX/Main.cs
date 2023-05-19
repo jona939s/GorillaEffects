@@ -32,7 +32,7 @@ namespace GorillaVFX
             ParticleMultiplier = Config.Bind<float>("General", "Particle Multiplier", 1.0f, "The amount of particles will be multiplied by this number.");
             Emission = Config.Bind<float>("General", "Particle Emission", 15.0f, "The amount of particle allowed to be spawned every second");
             Speed = Config.Bind<float>("General", "Particle Speed", 15.0f, "The amount of speed the particles can move at");
-            Size = Config.Bind<float>("General", "Particle Size", 15.0f, "The size of each particle");
+            Size = Config.Bind<float>("General", "Particle Size", 0.15f, "The size of each particle");
             Max = Config.Bind<int>("General", "Max Particles", 75, "The max amount of particles allowed to exist at once for eac individual particle system");
 
             Bepinject.Zenjector.Install<computerInterface.MainInstaller>().OnProject();
@@ -41,16 +41,16 @@ namespace GorillaVFX
 
         private void Start()
         {
-            GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Plane), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
-                false,
-                10,
+            GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Sphere), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
+                true,
+                20,
                 1000,
                 1,
                 Size.Value,
                 Speed.Value,
                 Emission.Value * ParticleMultiplier.Value,
                 Max.Value,
-                Color.green);
+                Color.blue);
 
             p.GetComponent<ParticleSystem>().Play();
 

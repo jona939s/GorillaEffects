@@ -4,14 +4,14 @@ using System.Linq;
 using UnityEngine;
 
 namespace GorillaVFX.Patches
-{/*
-    [HarmonyPatch(typeof(GorillaGameManager))]
+{
+    [HarmonyPatch(typeof(GorillaTagManager))]
     internal class GorillaGameManagerPatch
     {
         [HarmonyPostfix]
         [HarmonyWrapSafe]
-        [HarmonyPatch("ReportTag")]
-        private static void HookTag(GorillaGameManager __instance, Player TaggedPlayer)
+        [HarmonyPatch("AddInfectedPlayer")]
+        private static void HookTag(GorillaTagManager instance, Player TaggedPlayer)
         {
             Transform taggedTransform = GameObject.FindObjectsOfType<VRRig>().First(x => x.photonView.Owner == TaggedPlayer).transform;
 
@@ -31,5 +31,5 @@ namespace GorillaVFX.Patches
             ps.transform.position = taggedTransform.position;
             ps.GetComponent<ParticleSystem>().Play();
         }
-    }*/
+    }
 }
