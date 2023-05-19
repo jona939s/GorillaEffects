@@ -41,8 +41,9 @@ namespace GorillaVFX
 
         private void Start()
         {
-            /*GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Plane), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
-                true,
+            GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Plane), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
+                false,
+                10,
                 1000,
                 1,
                 Size.Value,
@@ -53,7 +54,7 @@ namespace GorillaVFX
 
             p.GetComponent<ParticleSystem>().Play();
 
-            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);*/
+            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
         }
     }
 }

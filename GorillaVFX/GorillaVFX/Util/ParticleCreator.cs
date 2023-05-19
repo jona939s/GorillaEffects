@@ -8,6 +8,7 @@ namespace GorillaVFX.Util
         /// Creates a basic 2D particle system
         /// </summary>
         /// <param name="loop">Should loop</param>
+        /// <param name="duration">How long the particle system should play if not looping (if looping just set this to 1)</param>
         /// <param name="lifetime">How long particles live</param>
         /// <param name="lifetimeMultiplier"></param>
         /// <param name="size">Particle size</param>
@@ -18,6 +19,7 @@ namespace GorillaVFX.Util
         /// <returns></returns>
         internal static GameObject BasicParticle(
             bool loop,
+            float duration,
             float lifetime,
             float lifetimeMultiplier,
             float size,
@@ -31,17 +33,19 @@ namespace GorillaVFX.Util
             ParticleSystem.MainModule module = ps.main;
             ParticleSystem.EmissionModule eModule = ps.emission;
             ParticleSystem.ShapeModule sModule = ps.shape;
-            Sprite defSprite = Resources.Load<Sprite>("");
+            Sprite defSprite = Resources.Load<Sprite>(""); // pass a string to this to load the sprite
 
             eModule.rateOverTime = emmission;
 
             module.loop = loop;
+            module.duration = duration;
             module.startLifetime = lifetime;
             module.startLifetimeMultiplier = lifetimeMultiplier;
             module.startSize = size;
             module.startSpeed = speed;
-            module.maxParticles = max * Main.ParticleMultiplier.Value;
+            module.maxParticles = max * (int)Main.ParticleMultiplier.Value;
             module.startColor = color;
+            module.stopAction = ParticleSystemStopAction.Destroy; // Destroyes the particle system once it is no longer needed (Should take the GO with it)
 
             sModule.shapeType = ParticleSystemShapeType.Sprite;
             sModule.sprite = defSprite;
@@ -50,11 +54,12 @@ namespace GorillaVFX.Util
         }
 
         /// <summary>
-        /// Creates a basic 3D particle system (MAY NOT WORK FOR NOW)
+        /// Creates a basic 3D particle system
         /// </summary>
         /// <param name="type">Takes a UnityEngine PrimitiveType for the shape the particles are allowed to be emitted in</param>
         /// <param name="shapeT">Takes a ParticleSystemShapeType to get the mesh shape that the 3D particles should be in</param>
         /// <param name="loop">Should loop</param>
+        /// <param name="duration">How long the particle system should play if not looping (if looping just set this to 1)</param>
         /// <param name="lifetime">How long the particles live</param>
         /// <param name="lifetimeMultiplier"></param>
         /// <param name="size">Particle size</param>
@@ -67,6 +72,7 @@ namespace GorillaVFX.Util
             Mesh shapeMesh,
             ParticleSystemShapeType shapeT,
             bool loop,
+            float duration,
             float lifetime,
             float lifetimeMultiplier,
             float size,
@@ -102,12 +108,14 @@ namespace GorillaVFX.Util
             module.cullingMode = ParticleSystemCullingMode.Automatic;
             module.playOnAwake = false;
             module.loop = loop;
+            module.duration = duration;
             module.startLifetime = lifetime;
             module.startLifetimeMultiplier = lifetimeMultiplier;
             module.startSize = size;
             module.startSpeed = speed;
             module.maxParticles = max;
-            
+            module.stopAction = ParticleSystemStopAction.Destroy; // Destroyes the particle system once it is no longer needed (Should take the GO with it)
+
             return go;
         }
 
