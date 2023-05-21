@@ -13,22 +13,10 @@ namespace GorillaVFX.computerInterface.Views
             public TextItem(string Text) { this.Text = Text; }
         }
 
-        private UIElementPageHandler<TextItem> pageHandler;
-        private UISelectionHandler selectionHandler;
-
         public override void OnShow(object[] args)
         {
             base.OnShow(args);
-            pageHandler = new UIElementPageHandler<TextItem>();
-            pageHandler.EntriesPerPage = 5;
-            pageHandler.SetElements(new TextItem[]
-            {
-                new TextItem("Partical Multiplier")
-            });
-
-            selectionHandler = new UISelectionHandler(EKeyboardKey.Up, EKeyboardKey.Down, EKeyboardKey.Enter);
-            selectionHandler.OnSelected += SelectionHandler_OnSelected;
-            selectionHandler.MaxIdx = pageHandler.EntriesPerPage;
+            DrawPage();
         }
 
         private void DrawPage()
@@ -37,8 +25,8 @@ namespace GorillaVFX.computerInterface.Views
             stringBuilder
                 .AddHeader(Main.NAME)
                 .BeginAlign("left")
-                .AppendLine(selectionHandler.GetIndicatedText(0, "Settings"))
-                .AppendLine(selectionHandler.GetIndicatedText(1, "Credits"));
+                .AppendLine($"ParticleAmountMultiplier:[<color=green>{Main.ParticleMultiplier.Value}</color>]")
+            ;
             SetText(stringBuilder);
         }
 
@@ -46,23 +34,15 @@ namespace GorillaVFX.computerInterface.Views
 
         public override void OnKeyPressed(EKeyboardKey key)
         {
-            if (selectionHandler.HandleKeypress(key))
-            {
-                int index = selectionHandler.CurrentSelectionIndex;
-                if (index == 0 && key == EKeyboardKey.Up && pageHandler.CurrentPage != 0)
-                    pageHandler.CurrentPage--;
-                if (index == selectionHandler.MaxIdx && key == EKeyboardKey.Down && pageHandler.CurrentPage != pageHandler.CurrentPage)
-                    pageHandler.CurrentPage++;
-                DrawPage();
-                return;
-            }
+            if (key == EKeyboardKey.Left)
+                Main.ParticleMultiplier.Value--;
+            else if (key == EKeyboardKey.Right)
+                Main.ParticleMultiplier.Value++;
 
             if (key == EKeyboardKey.Back)
                 ReturnView();
-        }
-        private void SelectionHandler_OnSelected(int obj)
-        {
-            throw new System.NotImplementedException();
+            else
+                DrawPage();
         }
     }
 }

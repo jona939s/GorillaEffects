@@ -53,6 +53,9 @@ namespace GorillaVFX.computerInterface.Views
                 case 0:
                     ShowView<settingsView>();
                     break;
+                case 1:
+                    ShowView<creditsView>();
+                    break;
             }
         }
 

@@ -1,10 +1,5 @@
-﻿/*
-    I may switch to bananahook. I just need to see if it does everything needed here
- */
-
-/*using HarmonyLib;
-using Photon.Pun;
-using UnityEngine;
+﻿using GorillaVFX.Util;
+using HarmonyLib;
 
 namespace GorillaVFX.Patches
 {
@@ -12,14 +7,10 @@ namespace GorillaVFX.Patches
     internal class VRRigPatch
     {
         [HarmonyPostfix]
-        [HarmonyPatch("PlayHandTap")]
-        private static void HookStep(int soundIndex, bool isLeftHand, float tapVolume, PhotonMessageInfo info)
+        [HarmonyPatch("Start")]
+        private static void HookStart(VRRig __instance)
         {
-            Transform taggedTransform = 
-            //__instance.
-            ParticleSystem ps = Util.ParticleCreator.Basic3DParticle(PrimitiveType.Sphere, false, 0.5f, 1, 1, 0.1f, 10, Color.red);
-            ps.transform.position = taggedTransform.position;
-            ps.Play();
+            ParticleCreator.BasicParticle(__instance.transform.position, false, 5, 5, 1, 0.25f, 1, 5, 50, __instance.materialsToChangeTo[0].color);
         }
     }
-}*/
+}

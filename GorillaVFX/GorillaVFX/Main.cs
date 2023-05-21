@@ -3,7 +3,6 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using GorillaVFX.Util;
 using HarmonyLib;
-using UnityEngine;
 
 namespace GorillaVFX
 {
@@ -13,7 +12,7 @@ namespace GorillaVFX
         internal const string
             GUID = "jjoecrafterbot.gorillatag.gorillaeffects",
             NAME = "Gorilla Effects",
-            VERSION = "0.0.1";
+            VERSION = "0.0.2";
         internal static ManualLogSource manualLogSource;
 
         #region Configuration
@@ -37,24 +36,6 @@ namespace GorillaVFX
 
             Bepinject.Zenjector.Install<computerInterface.MainInstaller>().OnProject();
             new Harmony(GUID).PatchAll();
-        }
-
-        private void Start()
-        {
-            GameObject p = ParticleCreator.Basic3DParticle(ParticleCreator.getMesh(PrimitiveType.Sphere), ParticleSystemShapeType.Sphere, // THIS IS AN EXAMPLE AND TEST PS
-                true,
-                20,
-                1000,
-                1,
-                Size.Value,
-                Speed.Value,
-                Emission.Value * ParticleMultiplier.Value,
-                Max.Value,
-                Color.blue);
-
-            p.GetComponent<ParticleSystem>().Play();
-
-            p.transform.position = new Vector3(-62.1642f, 2.4259f, -70.5596f);
         }
     }
 }

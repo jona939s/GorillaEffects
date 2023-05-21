@@ -4,6 +4,12 @@ namespace GorillaVFX.Util
 {
     internal static class ParticleCreator
     {
+        internal static void BasicParticle(Vector3 Location, bool loop, float duration, float lifetime, float lifetimeMultiplier, float size, float speed, float emmission, int max, Color color)
+        {
+            (GameObject obj, ParticleSystem ps) obj = BasicParticle(loop, duration, lifetime, lifetimeMultiplier, size, speed, emmission, max, color);
+            obj.obj.transform.position = Location;
+            obj.ps.Play();
+        }
         /// <summary>
         /// Creates a basic 2D particle system
         /// </summary>
@@ -17,7 +23,7 @@ namespace GorillaVFX.Util
         /// <param name="max">Max amount of particles at once</param>
         /// <param name="color">The color the basic particle should have</param>
         /// <returns></returns>
-        internal static GameObject BasicParticle(
+        internal static (GameObject obj, ParticleSystem ps) BasicParticle(
             bool loop,
             float duration,
             float lifetime,
@@ -33,7 +39,7 @@ namespace GorillaVFX.Util
             ParticleSystem.MainModule module = ps.main;
             ParticleSystem.EmissionModule eModule = ps.emission;
             ParticleSystem.ShapeModule sModule = ps.shape;
-            Sprite defSprite = Resources.Load<Sprite>(""); // pass a string to this to load the sprite
+            Sprite defSprite = Sprite.Create(new Texture2D(1, 1), new Rect(0, 0, 1, 1), Vector2.one / 2);
 
             eModule.rateOverTime = emmission;
 
@@ -50,7 +56,7 @@ namespace GorillaVFX.Util
             sModule.shapeType = ParticleSystemShapeType.Sprite;
             sModule.sprite = defSprite;
 
-            return go;
+            return (go, ps);
         }
 
         /// <summary>
@@ -98,7 +104,7 @@ namespace GorillaVFX.Util
 
             psr.enabled = true;
             psr.renderMode = ParticleSystemRenderMode.Mesh;
-            
+
             psr.mesh = shapeMesh;
             psr.material = mat;
 
