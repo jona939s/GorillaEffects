@@ -135,5 +135,20 @@ namespace GorillaVFX.Util
 
             return shapeMesh;
         }
+
+        internal static Mesh getMesh(GameObject meshObj) // Method overloading :D This way we can use one function name and get primitives and custom meshes
+        {
+            if (meshObj.TryGetComponent(out MeshFilter filter))
+            {
+                Mesh mesh = filter.mesh;
+                GameObject.Destroy(meshObj);
+                return mesh;
+            }
+            else
+            {
+                "COULD NOT GET MESH FROM GAME OBJECT!".Log(BepInEx.Logging.LogLevel.Error);
+                return null;
+            }
+        }
     }
 }
